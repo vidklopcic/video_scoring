@@ -8,11 +8,12 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.9.0/html-to-image.min.js"></script>
 </head>
 
-<body id="body">
-<div id="capture" style="width: 500px; height: 500px;">
-<b>test asdfasdf3223</b><br>
-<input type="text">
+<body id="body" style="background: transparent; padding: 20px;">
+<div id="capture" style="width: 600px; height: 300px; border: solid 1px black; display: flex; justify-content: center; align-items: center; flex-direction: column;">
+<b style="width: 600px; text-align: center;">Primer html strani za rendering overlaya</b><br>
+<p><span>OCENA: </span><input style="background: transparent; border: solid 1px gray; border-radius: 5px; height: 20px; width: 50px;" type="text"></p>
 </div>
+<br><br>
 <button onclick="capture()">prenos</button>
 </body>
 
@@ -26,7 +27,7 @@ function download(dataurl, filename) {
   
 function capture() {
   var node = document.getElementById('capture');
-  htmlToImage.toJpeg(node, { quality: 1, backgroundColor: "transparent", height: node.clientHeight, width: node.clientWidth })
+  htmlToImage.toPng(node, { quality: 1, height: node.clientHeight, width: node.clientWidth })
     .then(function (dataUrl) {
         download(dataUrl, 'overlay.png');
     })
