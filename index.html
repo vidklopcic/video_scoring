@@ -9,15 +9,26 @@
 </head>
 
 <body id="body" style="background: transparent; padding: 20px;">
-<div id="capture" style="width: 600px; height: 300px; border: solid 1px black; display: flex; justify-content: center; align-items: center; flex-direction: column;">
-<b style="width: 600px; text-align: center;">Primer html strani za rendering overlaya</b><br>
-<p><span>OCENA: </span><input style="background: transparent; border: solid 1px gray; border-radius: 5px; height: 20px; width: 50px;" type="text"></p>
+
+<video onplay="setVisibility(false)" onpause="setVisibility(true)" style="position: fixed; top: 20px; left: 20px;" id="player" width="400" controls>
+  <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+</video>
+
+<div id="capture-container" style="background: rgba(255, 255, 255, 0.5); position: fixed; top: 20px; left: 20px; pointer-events: none;">
+<div id="capture" style="width: 400px; height: 220px; display: flex; justify-content: center; align-items: center; flex-direction: column;">
+<b style="width: 400px; text-align: center;">Primer html strani za rendering overlaya</b><br>
+<p><span>OCENA: </span><input style="background: transparent; border: solid 1px gray; border-radius: 5px; height: 20px; width: 50px;pointer-events: auto;" type="text"></p>
 </div>
 <br><br>
-<button onclick="capture()">prenos</button>
+<button style="pointer-events: auto;" onclick="capture()">prenos</button>
+</div>
 </body>
 
 <script>
+function setVisibility(visible) {
+  document.getElementById('capture-container').style.display = visible ? 'block' : 'none';
+}
+
 function download(dataurl, filename) {
   const link = document.createElement("a");
   link.href = dataurl;
@@ -26,10 +37,12 @@ function download(dataurl, filename) {
 }
   
 function capture() {
+  let player = document.getElementById('player');
+  let fn = 'overlay_' + player.currentTime + ".png";
   var node = document.getElementById('capture');
   htmlToImage.toPng(node, { quality: 1, height: node.clientHeight, width: node.clientWidth })
     .then(function (dataUrl) {
-        download(dataUrl, 'overlay.png');
+        download(dataUrl, fn);
     })
     .catch(function (error) {
         console.error('oops, something went wrong!', error);
